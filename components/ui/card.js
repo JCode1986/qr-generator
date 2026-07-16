@@ -20,9 +20,11 @@ export function Card({
   padding = "md",
   className,
   children,
+  ...props
 }) {
   return (
     <Component
+      {...props}
       className={classNames(
         "rounded-[var(--radius-md)] border",
         variants[variant] || variants.default,

@@ -12,6 +12,8 @@
   --border: rgba(226, 232, 240, 0.14);
   --accent: #35d5f4;
   --accent-secondary: #a78bfa;
+  --qr-surface: #f8fafc;
+  --qr-module: #07111f;
 
   /* Shape and layout */
   --radius-sm: 0.5rem;
@@ -22,6 +24,7 @@
 
   /* Effects */
   --shadow-soft: 0 22px 70px rgba(0, 0, 0, 0.22);
+  --shadow-accent: rgba(53, 213, 244, 0.16);
   --transition-fast: 160ms;
 }
 
@@ -36,6 +39,8 @@
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-secondary: var(--accent-secondary);
+  --color-qr-surface: var(--qr-surface);
+  --color-qr-module: var(--qr-module);
   --font-sans: var(--font-geist-sans);
 }
 
@@ -48,6 +53,7 @@
 html {
   min-height: 100%;
   overflow-x: hidden;
+  scroll-behavior: smooth;
 }
 
 body {

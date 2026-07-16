@@ -4,12 +4,13 @@ QuickQR is being developed as a fast, customizable QR code generator for the bro
 
 ## Current Status
 
-Reusable design system and site shell.
+Landing-page hero complete; QR generation is next.
 
 ## Completed Segments
 
 - Segment 1: Project foundation
 - Segment 2: Design system and site shell
+- Segment 3: Landing-page hero and editor preview
 
 ## Planned Roadmap
 
