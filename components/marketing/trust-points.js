@@ -1,7 +1,8 @@
 const trustPoints = [
-  "No account for basic static QR codes",
-  "Custom colors and export options planned",
-  "Built for desktop and mobile",
+  "No account required",
+  "Generated in your browser",
+  "PNG and SVG exports",
+  "Free basic experience",
 ];
 
 export function TrustPoints() {

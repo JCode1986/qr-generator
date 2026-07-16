@@ -1,6 +1,14 @@
 import { BrandWordmark } from "@/components/branding/brand-wordmark";
 import { Container } from "@/components/layout/container";
-import { Badge } from "@/components/ui/badge";
+
+const footerLinks = [
+  { label: "Generator", href: "/#generator" },
+  { label: "Features", href: "/#features" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+];
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -11,12 +19,22 @@ export function SiteFooter() {
         <div className="space-y-3">
           <BrandWordmark />
           <p className="max-w-xl text-sm leading-6 text-[var(--muted)]">
-            QuickQR is being developed as a fast, customizable QR code generator
-            for the browser.
+            QR codes made fast, clean, and customizable. Generate static QR
+            codes in the browser without an account.
           </p>
         </div>
-        <div className="space-y-3 text-sm text-[var(--muted)] sm:text-right">
-          <Badge variant="muted">Early development</Badge>
+        <div className="space-y-4 text-sm text-[var(--muted)] sm:text-right">
+          <nav className="flex flex-wrap gap-3 sm:justify-end" aria-label="Footer">
+            {footerLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="rounded-[var(--radius-sm)] no-underline hover:text-[var(--foreground)]"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
           <p>Built with Next.js and JavaScript.</p>
           <p>&copy; {year} QuickQR.</p>
         </div>
