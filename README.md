@@ -1,37 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# QuickQR
 
-## Getting Started
+QR codes made fast, clean, and customizable.
 
-First, run the development server:
+QuickQR is a JavaScript-first Next.js app for creating static QR codes in the browser. It supports live QR generation, design controls, logo preview, PNG/SVG exports, and a Stripe-powered one-time Pro checkout for premium exports.
+
+## Implemented Features
+
+- URL and plain-text static QR generation
+- Email, phone, Wi-Fi, multiline, Unicode, and emoji content support
+- Live QR preview
+- Foreground and background colors
+- QR size, margin, and error-correction controls
+- Logo upload preview with local-only file handling
+- PNG download
+- SVG download
+- Copy QR image where the browser supports image clipboard writes
+- Example, clear, and reset actions
+- Responsive landing page, features, use cases, pricing, FAQ, privacy, and terms pages
+- Stripe Checkout route for one-time Pro purchases
+- Browser-local signed entitlement token after verified payment
+
+## Free vs Pro
+
+Free:
+
+- Unlimited static QR generation
+- URLs and plain text
+- Foreground and background colors
+- 256px and 512px PNG
+- Basic SVG without logo
+- No account required
+
+QuickQR Pro:
+
+- 1024px and 2048px PNG
+- Logo upload and export
+- Premium presets
+- High-resolution export
+- Full SVG export with logo
+- One-time purchase
+
+Premium access is stored on this browser. Clearing browser data or switching devices may require a new purchase until account-based restoration is introduced.
+
+## Stack
+
+- Next.js App Router
+- React
+- JavaScript
+- Tailwind CSS
+- qrcode
+- Stripe
+- ESLint
+
+## Local Setup
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Copy the environment example:
+
+```bash
+cp .env.example .env.local
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+STRIPE_SECRET_KEY=
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+STRIPE_PRICE_ID=
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+PREMIUM_TOKEN_SECRET=
+```
 
-## Learn More
+`PREMIUM_TOKEN_SECRET` signs browser-local Pro entitlement tokens. Use a long random value.
 
-To learn more about Next.js, take a look at the following resources:
+## Stripe Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Create a Stripe one-time Price for QuickQR Pro.
+2. Set `STRIPE_SECRET_KEY` to your Stripe secret key.
+3. Set `STRIPE_PRICE_ID` to the one-time Price ID.
+4. Set `NEXT_PUBLIC_APP_URL` to your local or production app URL.
+5. Set `PREMIUM_TOKEN_SECRET` to a long random secret.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The checkout route does not accept arbitrary price IDs from the browser.
 
-## Deploy on Vercel
+## No-Database Architecture
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Static QR content is generated client-side. Uploaded logos remain local in the browser and are not sent to QuickQR routes.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# qr-generator
+Stripe requires server routes to create Checkout Sessions and verify completed sessions. After verification, QuickQR stores a signed entitlement token in browser storage. There is no account-based entitlement restoration yet.
+
+## Validation
+
+Run linting:
+
+```bash
+npm run lint
+```
+
+Run a production build:
+
+```bash
+npm run build
+```
+
+## Branch Workflow
+
+- `main` is production-ready.
+- `dev` is the integration branch.
+- Feature work may use `feature/*` branches.
+
+## Known Limitations
+
+- Static QR destinations cannot be changed after export.
+- Dynamic QR codes and scan analytics are not implemented.
+- There are no accounts, saved QR history, teams, custom domains, or database-backed restoration.
+- Browser-local Pro access can be lost if browser storage is cleared.
