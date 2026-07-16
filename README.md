@@ -4,7 +4,12 @@ QuickQR is being developed as a fast, customizable QR code generator for the bro
 
 ## Current Status
 
-Project foundation.
+Reusable design system and site shell.
+
+## Completed Segments
+
+- Segment 1: Project foundation
+- Segment 2: Design system and site shell
 
 ## Planned Roadmap
 
@@ -59,6 +64,3 @@ npm run build
 - `main` is production-ready.
 - `dev` is the integration branch.
 - Feature work may use `feature/*` branches.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# qr-generator

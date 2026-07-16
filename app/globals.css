@@ -1,24 +1,36 @@
 @import "tailwindcss";
 
 :root {
+  /* Color */
   --background: #06111f;
   --surface: #0b1728;
   --surface-elevated: #111f33;
+  --surface-hover: #172840;
+  --surface-active: #1d304a;
   --foreground: #f8fafc;
   --muted: #9aa8ba;
   --border: rgba(226, 232, 240, 0.14);
   --accent: #35d5f4;
   --accent-secondary: #a78bfa;
+
+  /* Shape and layout */
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
   --container: 70rem;
+  --header-height: 4.5rem;
+
+  /* Effects */
+  --shadow-soft: 0 22px 70px rgba(0, 0, 0, 0.22);
+  --transition-fast: 160ms;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
   --color-surface-elevated: var(--surface-elevated);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-active: var(--surface-active);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-border: var(--border);
@@ -39,7 +51,10 @@ html {
 }
 
 body {
+  display: flex;
   min-height: 100vh;
+  min-height: 100svh;
+  flex-direction: column;
   margin: 0;
   background: var(--background);
   color: var(--foreground);
@@ -72,9 +87,13 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 ::selection {
-  background: color-mix(in srgb, var(--accent) 35%, transparent);
-  color: var(--foreground);
+  background: color-mix(in srgb, var(--accent) 42%, transparent);
+  color: #ffffff;
 }
 
 :focus-visible {
@@ -91,13 +110,13 @@ canvas {
   height: auto;
 }
 
-.container {
-  width: min(100% - 2rem, var(--container));
-  margin-inline: auto;
-}
-
-@media (min-width: 640px) {
-  .container {
-    width: min(100% - 3rem, var(--container));
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

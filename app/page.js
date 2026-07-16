@@ -1,80 +1,79 @@
-import { siteConfig } from "@/lib/site";
+import { Container } from "@/components/layout/container";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 
-const plannedSteps = ["Generate", "Customize", "Download"];
+const plannedWorkflow = [
+  {
+    title: "Generate",
+    description: "Enter a URL or text and create a static QR code.",
+  },
+  {
+    title: "Customize",
+    description: "Adjust colors, size, and presentation.",
+  },
+  {
+    title: "Download",
+    description: "Export polished PNG and SVG files.",
+  },
+];
 
 export default function Home() {
   return (
-    <main className="min-h-screen px-4 py-5 sm:px-6 sm:py-8 lg:px-8">
-      <section className="container flex min-h-[calc(100vh-2.5rem)] flex-col justify-between gap-14 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--surface)] px-5 py-6 shadow-[0_24px_80px_rgba(0,0,0,0.24)] sm:min-h-[calc(100vh-4rem)] sm:px-8 sm:py-8 lg:px-10">
-        <header className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div
-              className="grid size-10 grid-cols-3 gap-1 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-elevated)] p-2"
-              aria-hidden="true"
-            >
-              <span className="rounded-[2px] bg-[var(--accent)]" />
-              <span className="rounded-[2px] bg-white/80" />
-              <span className="rounded-[2px] bg-[var(--accent-secondary)]" />
-              <span className="rounded-[2px] bg-white/80" />
-              <span className="rounded-[2px] bg-[var(--accent)]" />
-              <span className="rounded-[2px] bg-white/25" />
-              <span className="rounded-[2px] bg-[var(--accent-secondary)]" />
-              <span className="rounded-[2px] bg-white/25" />
-              <span className="rounded-[2px] bg-[var(--accent)]" />
-            </div>
-            <p className="text-sm font-semibold text-[var(--foreground)]">
-              {siteConfig.name}
-            </p>
-          </div>
-
-          <p className="rounded-full border border-[var(--border)] bg-[var(--surface-elevated)] px-3 py-1 text-xs font-medium text-[var(--muted)]">
-            In development
-          </p>
-        </header>
-
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-end">
+    <section className="py-14 sm:py-20 lg:py-24">
+      <Container>
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start">
           <div className="max-w-3xl">
-            <h1 className="max-w-2xl text-4xl font-semibold leading-tight text-[var(--foreground)] sm:text-5xl lg:text-6xl">
-              {siteConfig.name} is taking shape.
+            <Badge variant="accent">Project foundation</Badge>
+            <h1 className="mt-6 max-w-2xl text-4xl font-semibold leading-tight text-[var(--foreground)] sm:text-5xl lg:text-6xl">
+              QuickQR is taking shape.
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-7 text-[var(--muted)] sm:text-lg">
               A fast, customizable QR code generator is being built here. Static
-              QR creation, polished exports, and premium design options are
-              coming in future development segments.
+              QR creation, polished exports, and premium design options will
+              arrive through focused development segments.
             </p>
           </div>
 
-          <aside
-            className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface-elevated)] p-4"
-            aria-labelledby="planned-roadmap"
-          >
-            <p
-              id="planned-roadmap"
-              className="text-xs font-semibold uppercase text-[var(--accent)]"
-            >
-              Planned
+          <Card variant="accent" className="self-stretch">
+            <Badge variant="muted">Current segment</Badge>
+            <p className="mt-4 text-lg font-semibold text-[var(--foreground)]">
+              Reusable design system and application shell.
             </p>
-            <ul className="mt-4 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-              {plannedSteps.map((step) => (
-                <li
-                  key={step}
-                  className="flex items-center gap-3 rounded-[var(--radius-sm)] border border-[var(--border)] px-3 py-3 text-sm font-medium text-[var(--foreground)]"
-                >
+            <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
+              Shared brand, layout, and UI primitives are being prepared before
+              product functionality begins.
+            </p>
+          </Card>
+        </div>
+
+        <div className="mt-12">
+          <div className="mb-4 flex flex-wrap items-center gap-3">
+            <Badge variant="muted">Planned workflow</Badge>
+            <p className="text-sm text-[var(--muted)]">
+              These cards describe planned capabilities, not active controls.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {plannedWorkflow.map((item) => (
+              <Card key={item.title} variant="elevated">
+                <div className="mb-5 flex items-center gap-3">
                   <span
                     className="size-2 rounded-full bg-[var(--accent-secondary)]"
                     aria-hidden="true"
                   />
-                  {step}
-                </li>
-              ))}
-            </ul>
-          </aside>
+                  <Badge variant="muted">Planned</Badge>
+                </div>
+                <h2 className="text-xl font-semibold text-[var(--foreground)]">
+                  {item.title}
+                </h2>
+                <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
+                  {item.description}
+                </p>
+              </Card>
+            ))}
+          </div>
         </div>
-
-        <footer className="border-t border-[var(--border)] pt-5 text-sm text-[var(--muted)]">
-          Built with Next.js and JavaScript.
-        </footer>
-      </section>
-    </main>
+      </Container>
+    </section>
   );
 }
