@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { Select } from "@heroui/react/select";
+import { ListBox } from "@heroui/react/list-box";
 import {
   addLogoToPngDataUrl,
   addLogoToSvg,
@@ -22,9 +24,77 @@ import { BrandMark } from "@/components/branding/brand-mark";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { classNames } from "@/lib/class-names";
 
 const logoTypes = ["image/png", "image/jpeg", "image/webp"];
 const logoMaxSize = 2 * 1024 * 1024;
+
+const errorCorrectionOptions = [
+  { value: "L", label: "L - Compact" },
+  { value: "M", label: "M - Balanced" },
+  { value: "Q", label: "Q - Strong" },
+  { value: "H", label: "H - Logo safe" },
+];
+
+const customPresetKey = "custom";
+
+function GeneratorSelect({
+  id,
+  label,
+  selectedKey,
+  options,
+  onSelectionChange,
+  disabled = false,
+}) {
+  const labelId = `${id}-label`;
+
+  return (
+    <div>
+      <span id={labelId} className="text-sm font-semibold text-[var(--foreground)]">
+        {label}
+      </span>
+      <Select
+        aria-labelledby={labelId}
+        selectedKey={String(selectedKey)}
+        onSelectionChange={(key) => {
+          if (key !== null) {
+            onSelectionChange(String(key));
+          }
+        }}
+        isDisabled={disabled}
+        className="mt-2 w-full"
+      >
+        <Select.Trigger
+          id={id}
+          className={classNames(
+            "min-h-11 w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-elevated)] px-3 text-left text-base text-[var(--foreground)] outline-none",
+            "transition duration-[var(--transition-fast)] hover:border-[color-mix(in_srgb,var(--accent)_45%,var(--border))] hover:bg-[var(--surface-hover)]",
+            "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--accent)]",
+            "disabled:cursor-not-allowed disabled:opacity-70",
+          )}
+        >
+          <Select.Value className="truncate" />
+          <Select.Indicator className="ml-auto size-4 text-[var(--muted)] transition-transform duration-[var(--transition-fast)] data-[open]:rotate-180" />
+        </Select.Trigger>
+        <Select.Popover className="quickqr-select-popover z-50 min-w-52 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface-elevated)] p-1 text-[var(--foreground)] shadow-[var(--shadow-soft)]">
+          <ListBox className="max-h-72 overflow-auto outline-none">
+            {options.map((option) => (
+              <ListBox.Item
+                key={option.value}
+                id={String(option.value)}
+                textValue={option.label}
+                className="flex min-h-10 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-sm font-medium outline-none transition duration-[var(--transition-fast)] data-[focused]:bg-[var(--surface-hover)] data-[hovered]:bg-[var(--surface-hover)] data-[selected]:text-[var(--accent)]"
+              >
+                <span>{option.label}</span>
+                <ListBox.ItemIndicator className="ml-auto size-4 text-[var(--accent)]" />
+              </ListBox.Item>
+            ))}
+          </ListBox>
+        </Select.Popover>
+      </Select>
+    </div>
+  );
+}
 
 function getSettingsKey(content, settings, logoDataUrl) {
   return JSON.stringify({
@@ -86,6 +156,22 @@ export function QrGenerator() {
   const isCurrentResult = qrResult.key === previewKey;
   const qrDataUrl = isCurrentResult && !qrResult.error ? qrResult.dataUrl : "";
   const contentType = useMemo(() => getContentType(content), [content]);
+  const selectedPresetKey = useMemo(() => {
+    const matchingPreset = qrPresets.find(
+      (preset) =>
+        preset.foreground === settings.foreground &&
+        preset.background === settings.background &&
+        preset.errorCorrection === settings.errorCorrection &&
+        preset.margin === settings.margin,
+    );
+
+    return matchingPreset?.name || customPresetKey;
+  }, [
+    settings.background,
+    settings.errorCorrection,
+    settings.foreground,
+    settings.margin,
+  ]);
   const status = isEmpty
     ? "empty"
     : hasColorError || (isCurrentResult && qrResult.error)
@@ -229,6 +315,19 @@ export function QrGenerator() {
       margin: preset.margin,
     }));
     setMessage(`${preset.name} preset applied.`);
+  }
+
+  function selectPreset(value) {
+    if (value === customPresetKey) {
+      setMessage("Custom design settings are active.");
+      return;
+    }
+
+    const preset = qrPresets.find((item) => item.name === value);
+
+    if (preset) {
+      applyPreset(preset);
+    }
   }
 
   function handleLogoUpload(event) {
@@ -402,7 +501,7 @@ export function QrGenerator() {
       id="generator"
       variant="elevated"
       padding="lg"
-      className="relative ml-auto w-full max-w-[780px] overflow-hidden"
+      className="relative ml-auto w-full max-w-[920px] overflow-hidden"
     >
       <div
         className="absolute inset-x-8 top-8 h-24 rounded-full bg-[var(--shadow-accent)] blur-3xl"
@@ -462,26 +561,21 @@ export function QrGenerator() {
             </div>
           </section>
 
-          <div className="grid gap-6 min-[1180px]:grid-cols-[minmax(0,0.56fr)_minmax(300px,0.44fr)] min-[1180px]:items-start">
+          <div className="grid gap-6 min-[1280px]:grid-cols-[minmax(0,0.54fr)_minmax(300px,0.46fr)] min-[1280px]:items-start">
             <div className="space-y-6">
-              <fieldset className="space-y-3">
-                <legend className="text-base font-semibold text-[var(--foreground)]">
-                  Presets
-                </legend>
-                <div className="flex flex-wrap gap-2">
-                  {qrPresets.map((preset) => (
-                    <button
-                      key={preset.name}
-                      type="button"
-                      onClick={() => applyPreset(preset)}
-                      className="min-h-10 rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 text-sm font-semibold text-[var(--foreground)] transition duration-[var(--transition-fast)] hover:bg-[var(--surface-hover)]"
-                    >
-                      {preset.name}
-                      {preset.premium ? " · Pro" : ""}
-                    </button>
-                  ))}
-                </div>
-              </fieldset>
+              <GeneratorSelect
+                id="preset"
+                label="Preset"
+                selectedKey={selectedPresetKey}
+                onSelectionChange={selectPreset}
+                options={[
+                  ...qrPresets.map((preset) => ({
+                    value: preset.name,
+                    label: `${preset.name}${preset.premium ? " - Pro" : ""}`,
+                  })),
+                  { value: customPresetKey, label: "Custom" },
+                ]}
+              />
 
               <section aria-labelledby="colors-heading" className="space-y-3">
                 <h3 id="colors-heading" className="text-base font-semibold text-[var(--foreground)]">
@@ -552,59 +646,36 @@ export function QrGenerator() {
                   QR settings
                 </legend>
                 <div className="grid gap-4 sm:grid-cols-3">
-                  <div>
-                    <label htmlFor="size" className="text-sm font-semibold text-[var(--foreground)]">
-                      Size
-                    </label>
-                    <select
-                      id="size"
-                      value={settings.size}
-                      onChange={(event) => updateSetting("size", Number(event.target.value))}
-                      className="mt-2 min-h-11 w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-elevated)] px-3 text-base text-[var(--foreground)] outline-none focus:border-[var(--accent)]"
-                    >
-                      {qrSizes.map((size) => (
-                        <option key={size} value={size}>
-                          {size} px {size > 512 ? "· Pro" : ""}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <GeneratorSelect
+                    id="size"
+                    label="Size"
+                    selectedKey={settings.size}
+                    onSelectionChange={(value) => updateSetting("size", Number(value))}
+                    options={qrSizes.map((size) => ({
+                      value: size,
+                      label: `${size} px${size > 512 ? " - Pro" : ""}`,
+                    }))}
+                  />
 
-                  <div>
-                    <label htmlFor="correction" className="text-sm font-semibold text-[var(--foreground)]">
-                      Error correction
-                    </label>
-                    <select
-                      id="correction"
-                      value={logo ? "H" : settings.errorCorrection}
-                      onChange={(event) => updateSetting("errorCorrection", event.target.value)}
-                      disabled={Boolean(logo)}
-                      className="mt-2 min-h-11 w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-elevated)] px-3 text-base text-[var(--foreground)] outline-none focus:border-[var(--accent)] disabled:opacity-70"
-                    >
-                      <option value="L">L · Compact</option>
-                      <option value="M">M · Balanced</option>
-                      <option value="Q">Q · Strong</option>
-                      <option value="H">H · Logo safe</option>
-                    </select>
-                  </div>
+                  <GeneratorSelect
+                    id="correction"
+                    label="Error correction"
+                    selectedKey={logo ? "H" : settings.errorCorrection}
+                    onSelectionChange={(value) => updateSetting("errorCorrection", value)}
+                    options={errorCorrectionOptions}
+                    disabled={Boolean(logo)}
+                  />
 
-                  <div>
-                    <label htmlFor="margin" className="text-sm font-semibold text-[var(--foreground)]">
-                      Margin
-                    </label>
-                    <select
-                      id="margin"
-                      value={settings.margin}
-                      onChange={(event) => updateSetting("margin", Number(event.target.value))}
-                      className="mt-2 min-h-11 w-full rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-elevated)] px-3 text-base text-[var(--foreground)] outline-none focus:border-[var(--accent)]"
-                    >
-                      {qrMargins.map((margin) => (
-                        <option key={margin} value={margin}>
-                          {margin} modules
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <GeneratorSelect
+                    id="margin"
+                    label="Margin"
+                    selectedKey={settings.margin}
+                    onSelectionChange={(value) => updateSetting("margin", Number(value))}
+                    options={qrMargins.map((margin) => ({
+                      value: margin,
+                      label: `${margin} modules`,
+                    }))}
+                  />
                 </div>
               </fieldset>
 
@@ -628,7 +699,7 @@ export function QrGenerator() {
                     Upload logo
                   </span>
                   <span className="mt-1 text-sm text-[var(--muted)]">
-                    PNG, JPEG, or WebP · max 2MB
+                    PNG, JPEG, or WebP - max 2MB
                   </span>
                   <input
                     type="file"
@@ -708,7 +779,7 @@ export function QrGenerator() {
               </p>
             </div>
 
-            <aside className="order-first space-y-4 min-[1180px]:order-none min-[1180px]:sticky min-[1180px]:top-6">
+            <aside className="order-first space-y-4 min-[1280px]:order-none min-[1280px]:sticky min-[1280px]:top-6">
               <div className="rounded-[var(--radius-lg)] bg-[var(--qr-surface)] p-5 text-center shadow-[0_18px_45px_rgba(0,0,0,0.24)]">
                 <div className="mx-auto flex aspect-square w-full max-w-[340px] items-center justify-center rounded-[var(--radius-md)] bg-white">
                   {qrDataUrl ? (
@@ -753,7 +824,7 @@ export function QrGenerator() {
                   </Button>
                 )}
 
-                <div className="grid gap-3 sm:grid-cols-2 min-[1180px]:grid-cols-2">
+                <div className="grid gap-3 sm:grid-cols-2 min-[1280px]:grid-cols-2">
                   {!svgRequirement ? (
                     <Button type="button" variant="secondary" onClick={handleSvgDownload}>
                       Download SVG
@@ -768,7 +839,7 @@ export function QrGenerator() {
               </div>
 
               <div className="rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-4 text-sm leading-6 text-[var(--muted)]">
-                <div className="grid gap-4 sm:grid-cols-2 min-[1180px]:grid-cols-2">
+                <div className="grid gap-4 sm:grid-cols-2 min-[1280px]:grid-cols-2">
                   <div>
                     <p className="font-semibold text-[var(--foreground)]">Free</p>
                     <ul className="mt-2 space-y-1">

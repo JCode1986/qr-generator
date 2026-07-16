@@ -1,4 +1,5 @@
 import { Geist } from "next/font/google";
+import { SmoothAnchorScroll } from "@/components/layout/smooth-anchor-scroll";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { siteConfig } from "@/lib/site";
@@ -40,6 +41,7 @@ export default function RootLayout({ children }) {
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />
+        <SmoothAnchorScroll />
       </body>
     </html>
   );

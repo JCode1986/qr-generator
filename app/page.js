@@ -34,17 +34,20 @@ export default function Home() {
     <>
       <HeroSection />
 
-      <section id="how-it-works" className="pb-10 sm:pb-14 lg:pb-16">
+      <section
+        id="how-it-works"
+        className="scroll-mt-[calc(var(--header-height)+1rem)] pb-10 sm:pb-14 lg:pb-16"
+      >
         <Container>
-          <div className="mb-5 flex flex-wrap items-center gap-3">
+          <div className="mb-5 flex min-w-0 flex-wrap items-center gap-3">
             <Badge variant="muted">How it works</Badge>
-            <p className="text-sm text-[var(--muted)]">
+            <p className="min-w-0 max-w-full break-words text-sm text-[var(--muted)]">
               Generate, customize, and export a static QR code in one browser session.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             {workflow.map((item) => (
-              <Card key={item.title} variant="elevated">
+              <Card key={item.title} variant="elevated" className="min-w-0">
                 <div className="mb-5 flex items-center gap-3">
                   <span
                     className="size-2 rounded-full bg-[var(--accent-secondary)]"
@@ -52,10 +55,10 @@ export default function Home() {
                   />
                   <Badge variant={item.statusVariant}>{item.status}</Badge>
                 </div>
-                <h2 className="text-xl font-semibold text-[var(--foreground)]">
+                <h2 className="max-w-full break-words text-xl font-semibold text-[var(--foreground)]">
                   {item.title}
                 </h2>
-                <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
+                <p className="mt-3 max-w-full break-words text-sm leading-6 text-[var(--muted)]">
                   {item.description}
                 </p>
               </Card>

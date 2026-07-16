@@ -24,21 +24,28 @@ const proFeatures = [
 
 export function PricingSection() {
   return (
-    <section id="pricing" className="py-14 sm:py-20">
+    <section
+      id="pricing"
+      className="scroll-mt-[calc(var(--header-height)+1rem)] py-14 sm:py-20"
+    >
       <Container>
-        <div className="max-w-2xl">
+        <div className="min-w-0 w-full">
           <Badge variant="accent">Pricing</Badge>
-          <h2 className="mt-4 text-3xl font-semibold text-[var(--foreground)] sm:text-4xl">
+          <h2 className="mt-4 max-w-full break-words text-3xl font-semibold text-[var(--foreground)] sm:text-4xl">
             Start free. Unlock premium exports when needed.
           </h2>
         </div>
         <div className="mt-8 grid gap-4 lg:grid-cols-2">
-          <Card variant="elevated" padding="lg">
+          <Card variant="elevated" padding="lg" className="min-w-0">
             <Badge variant="muted">Free</Badge>
-            <p className="mt-5 text-4xl font-semibold text-[var(--foreground)]">$0</p>
+            <p className="mt-5 max-w-full break-words text-4xl font-semibold text-[var(--foreground)]">
+              $0
+            </p>
             <ul className="mt-6 space-y-3 text-sm leading-6 text-[var(--muted)]">
               {freeFeatures.map((feature) => (
-                <li key={feature}>{feature}</li>
+                <li key={feature} className="max-w-full break-words">
+                  {feature}
+                </li>
               ))}
             </ul>
             <Button href="#generator" className="mt-8 w-full">
@@ -46,14 +53,16 @@ export function PricingSection() {
             </Button>
           </Card>
 
-          <Card variant="accent" padding="lg">
+          <Card variant="accent" padding="lg" className="min-w-0">
             <Badge variant="success">{quickQrPro.name}</Badge>
-            <p className="mt-5 text-4xl font-semibold text-[var(--foreground)]">
+            <p className="mt-5 max-w-full break-words text-4xl font-semibold text-[var(--foreground)]">
               {quickQrPro.priceLabel}
             </p>
             <ul className="mt-6 space-y-3 text-sm leading-6 text-[var(--muted)]">
               {proFeatures.map((feature) => (
-                <li key={feature}>{feature}</li>
+                <li key={feature} className="max-w-full break-words">
+                  {feature}
+                </li>
               ))}
             </ul>
             <Button href="#generator" variant="secondary" className="mt-8 w-full">
@@ -61,7 +70,7 @@ export function PricingSection() {
             </Button>
           </Card>
         </div>
-        <p className="mt-5 max-w-3xl text-sm leading-6 text-[var(--muted)]">
+        <p className="mt-5 w-full break-words text-sm leading-6 text-[var(--muted)]">
           Unlock premium exports on this browser after purchase. Without
           accounts or a database, entitlement restoration across devices or
           cleared browser storage is limited.

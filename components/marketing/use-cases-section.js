@@ -14,7 +14,7 @@ const useCases = [
 function UseCaseIcon() {
   return (
     <svg
-      className="h-5 w-5 text-[var(--accent)]"
+      className="h-5 w-5 shrink-0 text-[var(--accent)]"
       viewBox="0 0 20 20"
       fill="none"
       aria-hidden="true"
@@ -32,19 +32,22 @@ function UseCaseIcon() {
 
 export function UseCasesSection() {
   return (
-    <section id="use-cases" className="py-14 sm:py-20">
+    <section
+      id="use-cases"
+      className="scroll-mt-[calc(var(--header-height)+1rem)] py-14 sm:py-20"
+    >
       <Container>
-        <div className="max-w-2xl">
+        <div className="min-w-0 w-full">
           <Badge variant="muted">Use cases</Badge>
-          <h2 className="mt-4 text-3xl font-semibold text-[var(--foreground)] sm:text-4xl">
+          <h2 className="mt-4 max-w-full break-words text-3xl font-semibold text-[var(--foreground)] sm:text-4xl">
             Useful wherever a static code is enough.
           </h2>
         </div>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {useCases.map((useCase) => (
-            <Card key={useCase} variant="default" className="flex items-center gap-3">
+            <Card key={useCase} variant="default" className="flex min-w-0 items-center gap-3">
               <UseCaseIcon />
-              <h3 className="text-base font-semibold text-[var(--foreground)]">
+              <h3 className="min-w-0 max-w-full break-words text-base font-semibold text-[var(--foreground)]">
                 {useCase}
               </h3>
             </Card>

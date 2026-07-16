@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "@heroui/react/styles";
 
 :root {
   /* Color */
@@ -19,7 +20,7 @@
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
-  --container: 86rem;
+  --container: 100rem;
   --header-height: 4.5rem;
 
   /* Effects */
@@ -54,6 +55,7 @@ html {
   min-height: 100%;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + 1rem);
 }
 
 body {
@@ -62,6 +64,7 @@ body {
   min-height: 100svh;
   flex-direction: column;
   margin: 0;
+  padding-top: var(--header-height);
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
@@ -80,6 +83,9 @@ a {
   color: inherit;
   text-decoration-thickness: 0.08em;
   text-underline-offset: 0.18em;
+  transition-duration: var(--transition-fast);
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow;
+  transition-timing-function: ease;
 }
 
 button,
@@ -89,11 +95,23 @@ select {
   font: inherit;
 }
 
-button {
+button,
+[role="button"],
+a[href],
+summary,
+input[type="color"],
+input[type="range"],
+select,
+label:has(input[type="file"]) {
   cursor: pointer;
+  transition-duration: var(--transition-fast);
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow;
+  transition-timing-function: ease;
 }
 
-button:disabled {
+button:disabled,
+[aria-disabled="true"],
+[data-disabled="true"] {
   cursor: not-allowed;
 }
 
@@ -105,6 +123,47 @@ button:disabled {
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
+}
+
+.quickqr-select-popover {
+  transform-origin: top;
+  will-change: opacity, transform;
+}
+
+.quickqr-select-popover[data-placement^="top"] {
+  transform-origin: bottom;
+}
+
+.quickqr-select-popover[data-entering] {
+  animation: quickqr-popover-in 180ms ease-out;
+}
+
+.quickqr-select-popover[data-exiting] {
+  animation: quickqr-popover-out 140ms ease-in forwards;
+}
+
+@keyframes quickqr-popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes quickqr-popover-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
 }
 
 img,

@@ -8,8 +8,8 @@ export function HeroSection() {
   return (
     <section className="py-10 sm:py-14 lg:py-18">
       <Container>
-        <div className="grid gap-10 min-[1100px]:grid-cols-[minmax(0,0.4fr)_minmax(0,0.6fr)] min-[1100px]:items-start">
-          <div className="max-w-xl pt-2 min-[1100px]:pt-8">
+        <div className="grid gap-10 min-[1200px]:grid-cols-[minmax(0,0.36fr)_minmax(0,0.64fr)] min-[1200px]:items-start xl:gap-12">
+          <div className="max-w-xl pt-2 min-[1200px]:pt-8">
             <Badge variant="accent">Fast static QR creation</Badge>
             <h1 className="mt-5 max-w-xl text-4xl font-semibold leading-[1.04] text-[var(--foreground)] sm:text-5xl xl:text-6xl">
               Create a QR code in seconds.

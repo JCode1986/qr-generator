@@ -31,25 +31,28 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="py-14 sm:py-20">
+    <section
+      id="features"
+      className="scroll-mt-[calc(var(--header-height)+1rem)] py-14 sm:py-20"
+    >
       <Container>
-        <div className="max-w-2xl">
+        <div className="min-w-0 w-full">
           <Badge variant="accent">Features</Badge>
-          <h2 className="mt-4 text-3xl font-semibold text-[var(--foreground)] sm:text-4xl">
+          <h2 className="mt-4 max-w-full break-words text-3xl font-semibold text-[var(--foreground)] sm:text-4xl">
             Everything needed for static QR codes.
           </h2>
-          <p className="mt-4 text-base leading-7 text-[var(--muted)]">
+          <p className="mt-4 max-w-full break-words text-base leading-7 text-[var(--muted)]">
             QuickQR focuses on fast, standards-compliant static QR generation
             without accounts or a database.
           </p>
         </div>
         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature) => (
-            <Card key={feature.title} variant="elevated">
-              <h3 className="text-lg font-semibold text-[var(--foreground)]">
+            <Card key={feature.title} variant="elevated" className="min-w-0">
+              <h3 className="max-w-full break-words text-lg font-semibold text-[var(--foreground)]">
                 {feature.title}
               </h3>
-              <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
+              <p className="mt-3 max-w-full break-words text-sm leading-6 text-[var(--muted)]">
                 {feature.description}
               </p>
             </Card>
