@@ -26,7 +26,7 @@ export function PricingSection() {
   return (
     <section
       id="pricing"
-      className="scroll-mt-[calc(var(--header-height)+1rem)] py-14 sm:py-20"
+      className="quickqr-defer-section scroll-mt-[calc(var(--header-height)+1rem)] py-14 sm:py-20"
     >
       <Container>
         <div className="min-w-0 w-full">

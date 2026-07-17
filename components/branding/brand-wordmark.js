@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { BrandMark } from "@/components/branding/brand-mark";
 import { siteConfig } from "@/lib/site";
 import { classNames } from "@/lib/class-names";
@@ -21,9 +20,9 @@ export function BrandWordmark({ className, href = "/", showMark = true }) {
 
   if (href) {
     return (
-      <Link href={href} className={sharedClasses} aria-label={`${siteConfig.name} home`}>
+      <a href={href} className={sharedClasses} aria-label={`${siteConfig.name} home`}>
         {content}
-      </Link>
+      </a>
     );
   }
 

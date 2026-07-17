@@ -1,4 +1,5 @@
 import { Container } from "@/components/layout/container";
+import { LazyFaqAccordion } from "@/components/marketing/lazy-faq-accordion";
 import { Badge } from "@/components/ui/badge";
 
 const faqs = [
@@ -38,7 +39,7 @@ export function FaqSection() {
   return (
     <section
       id="faq"
-      className="scroll-mt-[calc(var(--header-height)+1rem)] py-14 sm:py-20"
+      className="quickqr-defer-section scroll-mt-[calc(var(--header-height)+1rem)] py-14 sm:py-20"
     >
       <Container>
         <div className="min-w-0 w-full">
@@ -47,35 +48,7 @@ export function FaqSection() {
             Clear answers for static QR codes.
           </h2>
         </div>
-        <div className="mt-8 grid gap-3">
-          {faqs.map((faq) => (
-            <details
-              key={faq.question}
-              className="group min-w-0 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] transition duration-[var(--transition-fast)] hover:border-[color-mix(in_srgb,var(--accent)_35%,var(--border))] hover:bg-[var(--surface-elevated)]"
-            >
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-[var(--radius-md)] p-5 text-left text-base font-semibold text-[var(--foreground)] outline-none transition duration-[var(--transition-fast)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--accent)] [&::-webkit-details-marker]:hidden">
-                <span className="min-w-0 break-words">{faq.question}</span>
-                <span
-                  className="size-5 shrink-0 text-[var(--accent)] transition-transform duration-[var(--transition-fast)] group-open:rotate-180"
-                  aria-hidden="true"
-                >
-                  <svg viewBox="0 0 20 20" fill="none">
-                    <path
-                      d="M5 7.5L10 12.5L15 7.5"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-              </summary>
-              <div className="px-5 pb-5 text-sm leading-6 text-[var(--muted)]">
-                <p className="min-h-0 overflow-hidden break-words pt-0">{faq.answer}</p>
-              </div>
-            </details>
-          ))}
-        </div>
+        <LazyFaqAccordion faqs={faqs} />
       </Container>
     </section>
   );

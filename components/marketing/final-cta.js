@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 
 export function FinalCta() {
   return (
-    <section className="scroll-mt-[calc(var(--header-height)+1rem)] py-14 sm:py-20">
+    <section className="quickqr-defer-section scroll-mt-[calc(var(--header-height)+1rem)] py-14 sm:py-20">
       <Container>
         <Card variant="accent" padding="lg" className="min-w-0 text-center">
           <h2 className="max-w-full break-words text-3xl font-semibold text-[var(--foreground)] sm:text-4xl">
