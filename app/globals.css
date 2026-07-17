@@ -1,17 +1,17 @@
 @import "tailwindcss";
-@import "@heroui/react/styles";
 
 :root {
   /* Color */
-  --background: #06111f;
-  --surface: #0b1728;
-  --surface-elevated: #111f33;
+  --background: #050f1c;
+  --surface: #0a1627;
+  --surface-elevated: #101d30;
   --surface-hover: #172840;
-  --surface-active: #1d304a;
+  --surface-active: #20344f;
   --foreground: #f8fafc;
   --muted: #9aa8ba;
   --border: rgba(226, 232, 240, 0.14);
   --accent: #35d5f4;
+  --accent-contrast: #03111f;
   --accent-secondary: #a78bfa;
   --qr-surface: #f8fafc;
   --qr-module: #07111f;
@@ -20,8 +20,8 @@
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
-  --container: 100rem;
-  --header-height: 4.5rem;
+  --container: 1480px;
+  --header-height: 3.75rem;
 
   /* Effects */
   --shadow-soft: 0 22px 70px rgba(0, 0, 0, 0.22);
@@ -65,7 +65,10 @@ body {
   flex-direction: column;
   margin: 0;
   padding-top: var(--header-height);
-  background: var(--background);
+  background:
+    radial-gradient(circle at 72% 0%, rgba(53, 213, 244, 0.12), transparent 34rem),
+    radial-gradient(circle at 8% 12%, rgba(167, 139, 250, 0.1), transparent 28rem),
+    var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   font-synthesis: none;

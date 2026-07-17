@@ -1,4 +1,3 @@
-import { Accordion } from "@heroui/react/accordion";
 import { Container } from "@/components/layout/container";
 import { Badge } from "@/components/ui/badge";
 
@@ -48,29 +47,35 @@ export function FaqSection() {
             Clear answers for static QR codes.
           </h2>
         </div>
-        <Accordion hideSeparator className="mt-8 grid gap-3">
+        <div className="mt-8 grid gap-3">
           {faqs.map((faq) => (
-            <Accordion.Item
+            <details
               key={faq.question}
-              id={faq.question}
-              className="min-w-0 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] transition duration-[var(--transition-fast)] hover:border-[color-mix(in_srgb,var(--accent)_35%,var(--border))] hover:bg-[var(--surface-elevated)]"
+              className="group min-w-0 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] transition duration-[var(--transition-fast)] hover:border-[color-mix(in_srgb,var(--accent)_35%,var(--border))] hover:bg-[var(--surface-elevated)]"
             >
-              <Accordion.Heading>
-                <Accordion.Trigger className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-[var(--radius-md)] p-5 text-left text-base font-semibold text-[var(--foreground)] outline-none transition duration-[var(--transition-fast)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--accent)]">
-                  <span className="min-w-0 break-words">
-                    {faq.question}
-                  </span>
-                  <Accordion.Indicator className="size-5 shrink-0 text-[var(--accent)] transition-transform duration-[var(--transition-fast)] data-[expanded]:rotate-180" />
-                </Accordion.Trigger>
-              </Accordion.Heading>
-              <Accordion.Panel className="grid grid-rows-[0fr] overflow-hidden px-5 pb-0 text-sm leading-6 text-[var(--muted)] transition-[grid-template-rows,padding] duration-300 ease-out data-[expanded]:grid-rows-[1fr] data-[expanded]:pb-5">
-                <Accordion.Body className="min-h-0 overflow-hidden break-words pt-0">
-                  {faq.answer}
-                </Accordion.Body>
-              </Accordion.Panel>
-            </Accordion.Item>
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-[var(--radius-md)] p-5 text-left text-base font-semibold text-[var(--foreground)] outline-none transition duration-[var(--transition-fast)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--accent)] [&::-webkit-details-marker]:hidden">
+                <span className="min-w-0 break-words">{faq.question}</span>
+                <span
+                  className="size-5 shrink-0 text-[var(--accent)] transition-transform duration-[var(--transition-fast)] group-open:rotate-180"
+                  aria-hidden="true"
+                >
+                  <svg viewBox="0 0 20 20" fill="none">
+                    <path
+                      d="M5 7.5L10 12.5L15 7.5"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </summary>
+              <div className="px-5 pb-5 text-sm leading-6 text-[var(--muted)]">
+                <p className="min-h-0 overflow-hidden break-words pt-0">{faq.answer}</p>
+              </div>
+            </details>
           ))}
-        </Accordion>
+        </div>
       </Container>
     </section>
   );
