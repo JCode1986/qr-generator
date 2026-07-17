@@ -2,8 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { Select } from "@heroui/react/select";
-import { ListBox } from "@heroui/react/list-box";
 import {
   addLogoToPngDataUrl,
   addLogoToSvg,
@@ -47,54 +45,31 @@ function GeneratorSelect({
   disabled = false,
 }) {
   const labelId = `${id}-label`;
-  const selectedOption = options.find(
-    (option) => String(option.value) === String(selectedKey),
-  ) || options[0];
 
   return (
     <div className="min-w-0">
       <span id={labelId} className="text-sm font-semibold text-[var(--foreground)]">
         {label}
       </span>
-      <Select
+      <select
+        id={id}
         aria-labelledby={labelId}
-        selectedKey={String(selectedKey)}
-        onSelectionChange={(key) => {
-          if (key !== null) {
-            onSelectionChange(String(key));
-          }
-        }}
-        isDisabled={disabled}
-        className="mt-2 w-full min-w-0"
+        value={String(selectedKey)}
+        onChange={(event) => onSelectionChange(event.target.value)}
+        disabled={disabled}
+        className={classNames(
+          "mt-2 min-h-11 w-full min-w-0 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-elevated)] px-3 text-base text-[var(--foreground)] outline-none",
+          "transition duration-[var(--transition-fast)] hover:border-[color-mix(in_srgb,var(--accent)_45%,var(--border))] hover:bg-[var(--surface-hover)]",
+          "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--accent)]",
+          "disabled:cursor-not-allowed disabled:opacity-70",
+        )}
       >
-        <Select.Trigger
-          id={id}
-          className={classNames(
-            "flex min-h-11 w-full min-w-0 items-center justify-between gap-2 overflow-hidden rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-elevated)] px-3 text-left text-base text-[var(--foreground)] outline-none",
-            "transition duration-[var(--transition-fast)] hover:border-[color-mix(in_srgb,var(--accent)_45%,var(--border))] hover:bg-[var(--surface-hover)]",
-            "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-[var(--accent)]",
-            "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-70",
-          )}
-        >
-          <span className="truncate">{selectedOption.label}</span>
-          <Select.Indicator className="size-4 shrink-0 text-[var(--muted)] transition-transform duration-[var(--transition-fast)] data-[open]:rotate-180" />
-        </Select.Trigger>
-        <Select.Popover className="quickqr-select-popover z-50 min-w-52 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface-elevated)] p-1 text-[var(--foreground)] shadow-[var(--shadow-soft)]">
-          <ListBox className="max-h-64 overflow-auto outline-none">
-            {options.map((option) => (
-              <ListBox.Item
-                key={option.value}
-                id={String(option.value)}
-                textValue={option.label}
-                className="flex min-h-11 cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-base font-medium outline-none transition duration-[var(--transition-fast)] data-[focused]:bg-[var(--surface-hover)] data-[hovered]:bg-[var(--surface-hover)] data-[selected]:text-[var(--accent)]"
-              >
-                <span className="truncate">{option.label}</span>
-                <ListBox.ItemIndicator className="ml-auto size-4 text-[var(--accent)]" />
-              </ListBox.Item>
-            ))}
-          </ListBox>
-        </Select.Popover>
-      </Select>
+        {options.map((option) => (
+          <option key={option.value} value={String(option.value)}>
+            {option.label}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }
@@ -621,7 +596,7 @@ export function QrGenerator() {
                 rows={4}
                 placeholder="Enter a URL, message, email address, phone number, Wi-Fi string, or other text"
                 aria-describedby="qr-helper qr-type qr-status generator-message"
-                className="mt-2 h-32 w-full resize-none rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-3 text-base leading-6 text-[var(--foreground)] outline-none transition duration-[var(--transition-fast)] placeholder:text-[color-mix(in_srgb,var(--muted)_70%,transparent)] focus:border-[var(--accent)]"
+                className="mt-2 h-32 w-full resize-none rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-3 text-sm leading-6 text-[var(--foreground)] outline-none transition duration-[var(--transition-fast)] placeholder:text-[color-mix(in_srgb,var(--muted)_70%,transparent)] focus:border-[var(--accent)]"
               />
               <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-sm leading-6 text-[var(--muted)]">
                 <p id="qr-helper">Generated locally in this browser.</p>
@@ -866,7 +841,7 @@ export function QrGenerator() {
               </div>
               <p
                 id="qr-status"
-                className="mt-4 text-base font-semibold text-slate-800"
+                className="mt-4 min-h-6 truncate whitespace-nowrap text-sm font-semibold leading-6 text-slate-800"
                 role={status === "error" ? "alert" : undefined}
                 aria-live="polite"
               >
