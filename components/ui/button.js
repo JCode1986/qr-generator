@@ -6,7 +6,7 @@ import { scrollToHash } from "@/lib/smooth-scroll";
 
 const variants = {
   primary:
-    "border-[color-mix(in_srgb,var(--accent)_70%,white_10%)] bg-[var(--accent)] text-slate-950 hover:bg-cyan-200 active:bg-cyan-300",
+    "border-[color-mix(in_srgb,var(--accent)_70%,white_10%)] bg-[var(--accent)] text-[var(--accent-contrast)] hover:bg-cyan-200 active:bg-cyan-300",
   secondary:
     "border-[var(--border)] bg-[var(--surface-elevated)] text-[var(--foreground)] hover:bg-[var(--surface-hover)] active:bg-[var(--surface-active)]",
   ghost:

@@ -46,8 +46,6 @@ export function SmoothAnchorScroll() {
       }
 
       event.preventDefault();
-      event.stopPropagation();
-      event.stopImmediatePropagation();
 
       scrollToHash(url.hash);
     }
