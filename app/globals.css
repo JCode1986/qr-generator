@@ -137,6 +137,47 @@ canvas {
   height: auto;
 }
 
+.quickqr-defer-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 620px;
+}
+
+.quickqr-select-popover {
+  transform-origin: var(--trigger-anchor-point, top);
+}
+
+.quickqr-select-popover[data-entering] {
+  animation: quickqr-popover-in 140ms ease-out;
+}
+
+.quickqr-select-popover[data-exiting] {
+  animation: quickqr-popover-out 110ms ease-in forwards;
+}
+
+@keyframes quickqr-popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.25rem) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes quickqr-popover-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-0.25rem) scale(0.98);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

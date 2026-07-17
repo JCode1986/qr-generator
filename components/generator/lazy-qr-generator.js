@@ -1,6 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { BrandMark } from "@/components/branding/brand-mark";
 
 function QrGeneratorSkeleton() {
@@ -57,14 +57,117 @@ function QrGeneratorSkeleton() {
   );
 }
 
-const QrGenerator = dynamic(
-  () => import("@/components/generator/qr-generator").then((module) => module.QrGenerator),
-  {
-    ssr: false,
-    loading: QrGeneratorSkeleton,
-  },
-);
-
 export function LazyQrGenerator() {
-  return <QrGenerator />;
+  const rootRef = useRef(null);
+  const loadingRef = useRef(false);
+  const mountedRef = useRef(false);
+  const [GeneratorComponent, setGeneratorComponent] = useState(null);
+
+  const loadGenerator = useCallback(() => {
+    if (loadingRef.current || GeneratorComponent) {
+      return;
+    }
+
+    loadingRef.current = true;
+
+    import("@/components/generator/qr-generator")
+      .then((module) => {
+        if (mountedRef.current) {
+          setGeneratorComponent(() => module.QrGenerator);
+        }
+      })
+      .catch(() => {
+        loadingRef.current = false;
+      });
+  }, [GeneratorComponent]);
+
+  useEffect(() => {
+    mountedRef.current = true;
+
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (GeneratorComponent) {
+      return undefined;
+    }
+
+    function scheduleLoad() {
+      if ("requestIdleCallback" in window) {
+        const idleId = window.requestIdleCallback(loadGenerator, { timeout: 900 });
+
+        return () => {
+          window.cancelIdleCallback(idleId);
+        };
+      }
+
+      const timeoutId = window.setTimeout(loadGenerator, 180);
+
+      return () => {
+        window.clearTimeout(timeoutId);
+      };
+    }
+
+    const root = rootRef.current;
+
+    if (!root || !("IntersectionObserver" in window)) {
+      return scheduleLoad();
+    }
+
+    let cancelScheduledLoad = null;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) {
+          return;
+        }
+
+        observer.disconnect();
+        cancelScheduledLoad = scheduleLoad();
+      },
+      { rootMargin: "520px 0px" },
+    );
+
+    observer.observe(root);
+
+    return () => {
+      observer.disconnect();
+      cancelScheduledLoad?.();
+    };
+  }, [GeneratorComponent, loadGenerator]);
+
+  useEffect(() => {
+    if (GeneratorComponent) {
+      return undefined;
+    }
+
+    function handleGeneratorIntent(event) {
+      const anchor = event.target?.closest?.('a[href$="#generator"], a[href="#generator"]');
+
+      if (anchor) {
+        loadGenerator();
+      }
+    }
+
+    document.addEventListener("pointerover", handleGeneratorIntent, { passive: true });
+    document.addEventListener("focusin", handleGeneratorIntent);
+    document.addEventListener("click", handleGeneratorIntent, true);
+
+    return () => {
+      document.removeEventListener("pointerover", handleGeneratorIntent);
+      document.removeEventListener("focusin", handleGeneratorIntent);
+      document.removeEventListener("click", handleGeneratorIntent, true);
+    };
+  }, [GeneratorComponent, loadGenerator]);
+
+  if (GeneratorComponent) {
+    return <GeneratorComponent />;
+  }
+
+  return (
+    <div ref={rootRef} className="h-full w-full">
+      <QrGeneratorSkeleton />
+    </div>
+  );
 }
