@@ -1,6 +1,11 @@
-import { QR_MAX_LENGTH } from "@/lib/qr/generate-qr";
+import { memo } from "react";
+import { QR_MAX_LENGTH } from "@/lib/qr/settings";
 
-export function ContentPanel({ content, setContent, contentType }) {
+export const ContentPanel = memo(function ContentPanel({
+  content,
+  onContentChange,
+  contentType,
+}) {
   return (
     <section
       aria-labelledby="content-label"
@@ -21,7 +26,7 @@ export function ContentPanel({ content, setContent, contentType }) {
       <textarea
         id="qr-content"
         value={content}
-        onChange={(event) => setContent(event.target.value)}
+        onChange={(event) => onContentChange(event.target.value)}
         maxLength={QR_MAX_LENGTH}
         rows={4}
         placeholder="Enter a URL, message, email address, phone number, Wi-Fi string, or other text"
@@ -39,4 +44,4 @@ export function ContentPanel({ content, setContent, contentType }) {
       </div>
     </section>
   );
-}
+});

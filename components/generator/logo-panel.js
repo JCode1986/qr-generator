@@ -1,7 +1,8 @@
+import { memo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export function LogoPanel({
+export const LogoPanel = memo(function LogoPanel({
   logo,
   logoError,
   logoScale,
@@ -89,4 +90,4 @@ export function LogoPanel({
       ) : null}
     </section>
   );
-}
+});

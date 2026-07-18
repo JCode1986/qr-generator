@@ -1,7 +1,8 @@
+import { memo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-export function ProSummary({
+export const ProSummary = memo(function ProSummary({
   premium,
   selectedExportRequirement,
   checkoutLoading,
@@ -52,4 +53,4 @@ export function ProSummary({
       )}
     </div>
   );
-}
+});

@@ -1,6 +1,12 @@
-import { isValidHexColor } from "@/lib/qr/generate-qr";
+import { memo } from "react";
+import { isValidHexColor } from "@/lib/qr/settings";
 
-export function ColorsPanel({ settings, updateColor, hasColorError }) {
+export const ColorsPanel = memo(function ColorsPanel({
+  foreground,
+  background,
+  updateColor,
+  hasColorError,
+}) {
   return (
     <section
       aria-labelledby="colors-heading"
@@ -16,14 +22,14 @@ export function ColorsPanel({ settings, updateColor, hasColorError }) {
         <ColorControl
           id="foreground"
           label="Foreground"
-          value={settings.foreground}
+          value={foreground}
           fallback="#07111f"
           onChange={(value) => updateColor("foreground", value)}
         />
         <ColorControl
           id="background"
           label="Background"
-          value={settings.background}
+          value={background}
           fallback="#ffffff"
           onChange={(value) => updateColor("background", value)}
         />
@@ -35,7 +41,7 @@ export function ColorsPanel({ settings, updateColor, hasColorError }) {
       ) : null}
     </section>
   );
-}
+});
 
 function ColorControl({ id, label, value, fallback, onChange }) {
   const colorValue = isValidHexColor(value) ? value : fallback;
