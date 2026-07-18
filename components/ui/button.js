@@ -2,7 +2,7 @@ import { classNames } from "@/lib/class-names";
 
 const variants = {
   primary:
-    "border-[color-mix(in_srgb,var(--accent)_70%,white_10%)] bg-[var(--accent)] text-[var(--accent-contrast)] hover:bg-cyan-200 active:bg-cyan-300",
+    "border-cyan-200 bg-cyan-200 text-slate-950 hover:bg-cyan-100 active:bg-cyan-300",
   secondary:
     "border-[var(--border)] bg-[var(--surface-elevated)] text-[var(--foreground)] hover:bg-[var(--surface-hover)] active:bg-[var(--surface-active)]",
   ghost:

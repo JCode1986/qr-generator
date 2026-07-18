@@ -26,6 +26,9 @@ import { LogoPanel } from "@/components/generator/logo-panel";
 import { PreviewPanel } from "@/components/generator/preview-panel";
 import { UtilityActions } from "@/components/generator/utility-actions";
 
+const generatorMinHeight =
+  "min-h-[1320px] sm:min-h-[1180px] min-[1280px]:min-h-[940px]";
+
 function getSettingsKey(content, settings, logoDataUrl) {
   return JSON.stringify({
     content,
@@ -431,7 +434,7 @@ export function QrGenerator() {
       id="generator"
       variant="elevated"
       padding="none"
-      className="relative h-full w-full overflow-hidden bg-[color-mix(in_srgb,var(--surface-elevated)_92%,black)]"
+      className={`relative h-full w-full overflow-hidden bg-[color-mix(in_srgb,var(--surface-elevated)_92%,black)] ${generatorMinHeight}`}
     >
       <div
         className="absolute inset-x-8 top-8 h-24 rounded-full bg-[var(--shadow-accent)] blur-3xl"

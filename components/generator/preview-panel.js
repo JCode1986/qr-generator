@@ -28,7 +28,8 @@ export function PreviewPanel({
               width={previewSize}
               height={previewSize}
               alt="Generated QR code for the current content"
-              className="h-auto w-full rounded-[var(--radius-sm)]"
+              className="aspect-square h-auto w-full rounded-[var(--radius-sm)] object-contain"
+              style={{ aspectRatio: "1 / 1" }}
             />
           ) : (
             <div className="flex h-full w-full items-center justify-center rounded-[var(--radius-sm)] border border-dashed border-slate-300 p-6 text-base leading-6 text-slate-600">

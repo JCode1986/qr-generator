@@ -11,7 +11,8 @@
   --muted: #9aa8ba;
   --border: rgba(226, 232, 240, 0.14);
   --accent: #35d5f4;
-  --accent-contrast: #03111f;
+  --accent-strong: #8ff0ff;
+  --accent-contrast: #00101c;
   --accent-secondary: #a78bfa;
   --qr-surface: #f8fafc;
   --qr-module: #07111f;
@@ -39,6 +40,7 @@
   --color-muted: var(--muted);
   --color-border: var(--border);
   --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
   --color-accent-secondary: var(--accent-secondary);
   --color-qr-surface: var(--qr-surface);
   --color-qr-module: var(--qr-module);

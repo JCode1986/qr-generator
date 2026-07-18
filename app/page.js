@@ -6,6 +6,27 @@ import { HeroSection } from "@/components/marketing/hero-section";
 import { PricingSection } from "@/components/marketing/pricing-section";
 import { UseCasesSection } from "@/components/marketing/use-cases-section";
 import { Badge } from "@/components/ui/badge";
+import { siteConfig } from "@/lib/site";
+
+export const metadata = {
+  title: siteConfig.title,
+  description: siteConfig.description,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: siteConfig.title,
+    description: siteConfig.description,
+    url: "/",
+    siteName: siteConfig.name,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+  },
+};
 
 const workflow = [
   {

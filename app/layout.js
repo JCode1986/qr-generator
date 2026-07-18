@@ -1,5 +1,4 @@
 import { Geist } from "next/font/google";
-import Script from "next/script";
 import { SmoothAnchorScroll } from "@/components/layout/smooth-anchor-scroll";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -39,9 +38,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={geistSans.variable}>
       <body>
-        <Script
+        <script
           id="quickqr-suppress-native-anchor-scroll"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function () {
