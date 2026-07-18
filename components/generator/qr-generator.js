@@ -1,16 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  addLogoToPngDataUrl,
-  addLogoToSvg,
   defaultQrSettings,
-  generateQrDataUrl,
-  generateQrSvg,
+  defaultQrPreviewDataUrl,
   isValidHexColor,
   normalizeHexColor,
   qrPresets,
-} from "@/lib/qr/generate-qr";
+} from "@/lib/qr/settings";
 import { copyPngToClipboard, dataUrlToBlob, downloadBlob, getDownloadFileName } from "@/lib/qr/download";
 import { getContentType } from "@/lib/qr/content-type";
 import { premiumStorageKey, quickQrPro } from "@/lib/stripe/products";
@@ -28,6 +25,16 @@ import { UtilityActions } from "@/components/generator/utility-actions";
 
 const generatorMinHeight =
   "min-h-[1320px] sm:min-h-[1180px] min-[1280px]:min-h-[940px]";
+
+let qrGenerationPromise;
+
+function loadQrGeneration() {
+  if (!qrGenerationPromise) {
+    qrGenerationPromise = import("@/lib/qr/generate-qr");
+  }
+
+  return qrGenerationPromise;
+}
 
 function getSettingsKey(content, settings, logoDataUrl) {
   return JSON.stringify({
@@ -70,7 +77,16 @@ export function QrGenerator() {
   const [content, setContent] = useState(defaultQrSettings.content);
   const [settings, setSettings] = useState(defaultQrSettings);
   const [logo, setLogo] = useState(null);
-  const [qrResult, setQrResult] = useState({ key: "", dataUrl: "", error: false });
+  const [qrResult, setQrResult] = useState(() => {
+    const initialPreviewSettings = getRenderSettings(defaultQrSettings, null, 512);
+
+    return {
+      key: getSettingsKey(defaultQrSettings.content, initialPreviewSettings, null),
+      dataUrl: defaultQrPreviewDataUrl,
+      error: false,
+      staticPreview: true,
+    };
+  });
   const [message, setMessage] = useState("");
   const [logoError, setLogoError] = useState("");
   const [premium, setPremium] = useState(false);
@@ -83,9 +99,12 @@ export function QrGenerator() {
   const previewSize = 512;
   const previewSettings = useMemo(
     () => getRenderSettings(settings, logo, previewSize),
-    [logo, previewSize, settings],
+    [logo, settings, previewSize],
   );
-  const previewKey = getSettingsKey(content, previewSettings, logo?.dataUrl);
+  const previewKey = useMemo(
+    () => getSettingsKey(content, previewSettings, logo?.dataUrl),
+    [content, logo?.dataUrl, previewSettings],
+  );
   const isCurrentResult = qrResult.key === previewKey;
   const qrDataUrl = isCurrentResult && !qrResult.error ? qrResult.dataUrl : "";
   const contentType = useMemo(() => getContentType(content), [content]);
@@ -173,23 +192,34 @@ export function QrGenerator() {
   useEffect(() => {
     let isCurrent = true;
 
-    if (isEmpty || hasColorError) {
+    if (isEmpty || hasColorError || (qrDataUrl && !qrResult.staticPreview)) {
       return undefined;
     }
 
     const timer = window.setTimeout(async () => {
       try {
+        const { addLogoToPngDataUrl, generateQrDataUrl } = await loadQrGeneration();
         const baseDataUrl = await generateQrDataUrl(content, previewSettings);
         const nextDataUrl = logo?.dataUrl
           ? await addLogoToPngDataUrl(baseDataUrl, logo.dataUrl, previewSettings)
           : baseDataUrl;
 
         if (isCurrent) {
-          setQrResult({ key: previewKey, dataUrl: nextDataUrl, error: false });
+          setQrResult({
+            key: previewKey,
+            dataUrl: nextDataUrl,
+            error: false,
+            staticPreview: false,
+          });
         }
       } catch {
         if (isCurrent) {
-          setQrResult({ key: previewKey, dataUrl: "", error: true });
+          setQrResult({
+            key: previewKey,
+            dataUrl: "",
+            error: true,
+            staticPreview: false,
+          });
         }
       }
     }, 180);
@@ -198,43 +228,56 @@ export function QrGenerator() {
       isCurrent = false;
       window.clearTimeout(timer);
     };
-  }, [content, hasColorError, isEmpty, logo?.dataUrl, previewKey, previewSettings]);
+  }, [
+    content,
+    hasColorError,
+    isEmpty,
+    logo?.dataUrl,
+    previewKey,
+    previewSettings,
+    qrDataUrl,
+    qrResult.staticPreview,
+  ]);
 
-  function updateSetting(name, value) {
+  const handleContentChange = useCallback((value) => {
+    setContent(value);
+  }, []);
+
+  const updateSetting = useCallback((name, value) => {
     setSettings((current) => ({
       ...current,
       [name]: value,
     }));
-  }
+  }, []);
 
-  function updateColor(name, value) {
+  const updateColor = useCallback((name, value) => {
     updateSetting(name, normalizeHexColor(value));
-  }
+  }, [updateSetting]);
 
-  function useExample() {
+  const useExample = useCallback(() => {
     setContent(defaultQrSettings.content);
     setMessage("Example content restored.");
-  }
+  }, []);
 
-  function clearContent() {
+  const clearContent = useCallback(() => {
     setContent("");
     setMessage("Content cleared.");
-  }
+  }, []);
 
-  function resetDesign() {
+  const resetDesign = useCallback(() => {
     setSettings(defaultQrSettings);
     setLogo(null);
     setLogoError("");
     setMessage("Design reset.");
-  }
+  }, []);
 
-  function removeLogo() {
+  const removeLogo = useCallback(() => {
     setLogo(null);
     setLogoError("");
     setMessage("Logo removed.");
-  }
+  }, []);
 
-  function applyPreset(preset) {
+  const applyPreset = useCallback((preset) => {
     if (preset.premium && !premium) {
       setMessage("Premium preset. Unlock Pro to use this design.");
       return;
@@ -248,9 +291,9 @@ export function QrGenerator() {
       margin: preset.margin,
     }));
     setMessage(`${preset.name} preset applied.`);
-  }
+  }, [premium]);
 
-  function selectPreset(value) {
+  const selectPreset = useCallback((value) => {
     if (value === customPresetKey) {
       setMessage("Custom design settings are active.");
       return;
@@ -261,9 +304,9 @@ export function QrGenerator() {
     if (preset) {
       applyPreset(preset);
     }
-  }
+  }, [applyPreset]);
 
-  function handleLogoUpload(event) {
+  const handleLogoUpload = useCallback((event) => {
     const file = event.target.files?.[0];
     event.target.value = "";
 
@@ -304,9 +347,14 @@ export function QrGenerator() {
       setLogoError("We could not read this logo file.");
     };
     reader.readAsDataURL(file);
-  }
+  }, []);
 
-  async function createPngDataUrl(outputSize = settings.size) {
+  const updateLogoScale = useCallback((value) => {
+    updateSetting("logoScale", value);
+  }, [updateSetting]);
+
+  const createPngDataUrl = useCallback(async (outputSize = settings.size) => {
+    const { addLogoToPngDataUrl, generateQrDataUrl } = await loadQrGeneration();
     const outputSettings = getRenderSettings(settings, logo, outputSize);
     const baseDataUrl = await generateQrDataUrl(content, outputSettings);
 
@@ -315,9 +363,9 @@ export function QrGenerator() {
     }
 
     return addLogoToPngDataUrl(baseDataUrl, logo.dataUrl, outputSettings);
-  }
+  }, [content, logo, settings]);
 
-  async function handlePngDownload() {
+  const handlePngDownload = useCallback(async () => {
     const requirement = getPremiumRequirement(settings, logo, "png");
 
     if (requirement && !premium) {
@@ -339,9 +387,9 @@ export function QrGenerator() {
     } catch {
       setMessage("We could not create the PNG download.");
     }
-  }
+  }, [createPngDataUrl, logo, premium, settings, status]);
 
-  async function handleSvgDownload() {
+  const handleSvgDownload = useCallback(async () => {
     const requirement = getPremiumRequirement(settings, logo, "svg");
 
     if (requirement && !premium) {
@@ -355,6 +403,7 @@ export function QrGenerator() {
     }
 
     try {
+      const { addLogoToSvg, generateQrSvg } = await loadQrGeneration();
       const outputSettings = getRenderSettings(settings, logo, settings.size);
       const baseSvg = await generateQrSvg(content, outputSettings);
       const svg = logo?.dataUrl
@@ -367,9 +416,9 @@ export function QrGenerator() {
     } catch {
       setMessage("We could not create the SVG download.");
     }
-  }
+  }, [content, logo, premium, settings, status]);
 
-  async function handleCopyImage() {
+  const handleCopyImage = useCallback(async () => {
     const requirement = getPremiumRequirement(settings, logo, "copy");
 
     if (requirement && !premium) {
@@ -397,9 +446,9 @@ export function QrGenerator() {
     } catch {
       setMessage("We could not copy the QR image.");
     }
-  }
+  }, [createPngDataUrl, logo, premium, settings, status]);
 
-  async function handleCheckout() {
+  const handleCheckout = useCallback(async () => {
     setCheckoutLoading(true);
     setMessage("");
 
@@ -422,7 +471,7 @@ export function QrGenerator() {
     } finally {
       setCheckoutLoading(false);
     }
-  }
+  }, []);
 
   const pngRequirement = !premium ? getPremiumRequirement(settings, logo, "png") : "";
   const svgRequirement = !premium ? getPremiumRequirement(settings, logo, "svg") : "";
@@ -463,7 +512,7 @@ export function QrGenerator() {
           <div className="min-w-0 space-y-4">
             <ContentPanel
               content={content}
-              setContent={setContent}
+              onContentChange={handleContentChange}
               contentType={contentType}
             />
             <PresetChips
@@ -472,13 +521,16 @@ export function QrGenerator() {
               premium={premium}
             />
             <ColorsPanel
-              settings={settings}
+              foreground={settings.foreground}
+              background={settings.background}
               updateColor={updateColor}
               hasColorError={hasColorError}
             />
             <SettingsPanel
-              settings={settings}
-              logo={logo}
+              size={settings.size}
+              errorCorrection={settings.errorCorrection}
+              margin={settings.margin}
+              logoActive={Boolean(logo)}
               updateSetting={updateSetting}
             />
             <LogoPanel
@@ -487,7 +539,7 @@ export function QrGenerator() {
               logoScale={settings.logoScale}
               onLogoUpload={handleLogoUpload}
               onLogoRemove={removeLogo}
-              updateLogoScale={(value) => updateSetting("logoScale", value)}
+              updateLogoScale={updateLogoScale}
             />
             <UtilityActions
               onUseExample={useExample}

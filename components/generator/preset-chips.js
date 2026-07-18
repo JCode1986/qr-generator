@@ -1,23 +1,25 @@
-import { qrPresets } from "@/lib/qr/generate-qr";
+import { memo } from "react";
+import { qrPresets } from "@/lib/qr/settings";
 import { classNames } from "@/lib/class-names";
 import { customPresetKey } from "@/components/generator/constants";
 
-export function PresetChips({ selectedKey, onSelect, premium }) {
-  const options = [
-    ...qrPresets.map((preset) => ({
-      ...preset,
-      value: preset.name,
-      label: preset.name,
-    })),
-    {
-      value: customPresetKey,
-      label: "Custom",
-      foreground: "#35d5f4",
-      background: "#111f33",
-    },
-  ];
-  const labelId = "preset-label";
+const presetOptions = [
+  ...qrPresets.map((preset) => ({
+    ...preset,
+    value: preset.name,
+    label: preset.name,
+  })),
+  {
+    value: customPresetKey,
+    label: "Custom",
+    foreground: "#35d5f4",
+    background: "#111f33",
+  },
+];
 
+const labelId = "preset-label";
+
+export const PresetChips = memo(function PresetChips({ selectedKey, onSelect, premium }) {
   return (
     <div className="min-w-0 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--surface)] p-3">
       <h3 id={labelId} className="text-sm font-semibold text-[var(--foreground)]">
@@ -28,7 +30,7 @@ export function PresetChips({ selectedKey, onSelect, premium }) {
         className="mt-2 flex flex-wrap gap-2"
         role="group"
       >
-        {options.map((preset) => {
+        {presetOptions.map((preset) => {
           const selected = String(preset.value) === String(selectedKey);
 
           return (
@@ -66,4 +68,4 @@ export function PresetChips({ selectedKey, onSelect, premium }) {
       </div>
     </div>
   );
-}
+});

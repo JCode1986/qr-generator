@@ -1,5 +1,5 @@
 import { Container } from "@/components/layout/container";
-import { LazyQrGenerator } from "@/components/generator/lazy-qr-generator";
+import { QrGenerator } from "@/components/generator/qr-generator";
 import { TrustPoints } from "@/components/marketing/trust-points";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -38,7 +38,7 @@ export function HeroSection() {
               aria-hidden="true"
             />
             <div className="relative h-full w-full">
-              <LazyQrGenerator />
+              <QrGenerator />
             </div>
           </div>
         </div>

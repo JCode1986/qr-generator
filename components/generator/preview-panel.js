@@ -1,7 +1,8 @@
+import { memo } from "react";
 import { Button } from "@/components/ui/button";
 import { ProSummary } from "@/components/generator/pro-summary";
 
-export function PreviewPanel({
+export const PreviewPanel = memo(function PreviewPanel({
   qrDataUrl,
   previewSize,
   isEmpty,
@@ -80,4 +81,4 @@ export function PreviewPanel({
       </p>
     </aside>
   );
-}
+});
