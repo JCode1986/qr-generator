@@ -26,7 +26,7 @@ export function PresetChips({ selectedKey, onSelect, premium }) {
       <div
         aria-labelledby={labelId}
         className="mt-2 flex flex-wrap gap-2"
-        role="list"
+        role="group"
       >
         {options.map((preset) => {
           const selected = String(preset.value) === String(selectedKey);
