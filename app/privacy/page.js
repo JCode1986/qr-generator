@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 
 export const metadata = {
   title: "Privacy Policy",
-  description: "How QuickQR handles QR content, uploaded logos, and payments.",
+  description: "How QuickQR handles QR content and uploaded logos.",
 };
 
 export default function PrivacyPage() {
@@ -24,16 +24,12 @@ export default function PrivacyPage() {
               They are not uploaded to a QuickQR server.
             </p>
             <p>
-              Stripe processes payments for QuickQR Pro. Payment details are
-              handled by Stripe, not stored by QuickQR.
-            </p>
-            <p>
               Hosting providers may collect basic technical logs such as request
               metadata, IP address, browser information, and error diagnostics.
             </p>
             <p>
-              The MVP does not include user accounts. Premium access is stored in
-              browser storage after a verified Stripe checkout.
+              QuickQR Pro is listed as a planned feature for this portfolio
+              project and is not currently available for purchase.
             </p>
           </div>
         </Card>

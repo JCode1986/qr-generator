@@ -13,11 +13,11 @@ const features = [
   },
   {
     title: "High-resolution exports",
-    description: "Download standard PNG and SVG files, with larger Pro exports available.",
+    description: "Download standard PNG and SVG files, with larger Pro exports planned.",
   },
   {
     title: "Logo support",
-    description: "Preview centered logos with a white backing plate and export with Pro.",
+    description: "Preview centered logos with a white backing plate. Logo exports are planned for Pro.",
   },
   {
     title: "Browser-based privacy",

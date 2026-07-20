@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 
 export const metadata = {
   title: "Terms of Use",
-  description: "Terms for using QuickQR static QR generation and Pro exports.",
+  description: "Terms for using QuickQR static QR generation.",
 };
 
 export default function TermsPage() {
@@ -30,10 +30,8 @@ export default function TermsPage() {
               content.
             </p>
             <p>
-              QuickQR Pro is a one-time purchase that unlocks premium exports in
-              the browser where the entitlement token is stored. Without accounts
-              or a database, restoration across devices or cleared browser data
-              is limited.
+              QuickQR Pro and premium exports are planned features for this
+              portfolio project and are not currently available for purchase.
             </p>
             <p>
               The service is provided without warranties beyond those required by

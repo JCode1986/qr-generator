@@ -19,7 +19,7 @@ const proFeatures = [
   "Premium presets",
   "High-resolution export",
   "Full SVG export with logo",
-  "One-time purchase",
+  "Portfolio roadmap feature",
 ];
 
 export function PricingSection() {
@@ -32,7 +32,7 @@ export function PricingSection() {
         <div className="min-w-0 w-full">
           <Badge variant="accent">Pricing</Badge>
           <h2 className="mt-4 max-w-full break-words text-3xl font-semibold text-[var(--foreground)] sm:text-4xl">
-            Start free. Unlock premium exports when needed.
+            Start free. Pro export tools are coming soon.
           </h2>
         </div>
         <div className="mt-8 grid gap-4 lg:grid-cols-2">
@@ -65,15 +65,14 @@ export function PricingSection() {
                 </li>
               ))}
             </ul>
-            <Button href="#generator" variant="secondary" className="mt-8 w-full">
-              Unlock Pro
+            <Button type="button" disabled className="mt-8 w-full">
+              Coming soon
             </Button>
           </Card>
         </div>
         <p className="mt-5 w-full break-words text-sm leading-6 text-[var(--muted)]">
-          Unlock premium exports on this browser after purchase. Without
-          accounts or a database, entitlement restoration across devices or
-          cleared browser storage is limited.
+          Premium exports are shown as a product direction for this portfolio
+          project and are not currently available for purchase.
         </p>
       </Container>
     </section>
