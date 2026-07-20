@@ -11,11 +11,9 @@ export const PreviewPanel = memo(function PreviewPanel({
   message,
   premium,
   selectedExportRequirement,
-  checkoutLoading,
   onPngDownload,
   onSvgDownload,
   onCopyImage,
-  onCheckout,
 }) {
   return (
     <aside className="order-first space-y-4 min-[1280px]:order-none min-[1280px]:sticky min-[1280px]:top-20">
@@ -67,8 +65,6 @@ export const PreviewPanel = memo(function PreviewPanel({
       <ProSummary
         premium={premium}
         selectedExportRequirement={selectedExportRequirement}
-        checkoutLoading={checkoutLoading}
-        onCheckout={onCheckout}
       />
 
       <p

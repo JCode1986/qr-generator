@@ -19,9 +19,9 @@ const faqs = [
       "No. Static QR destinations are embedded into the image and cannot be edited after export.",
   },
   {
-    question: "What does QuickQR Pro unlock?",
+    question: "What will QuickQR Pro unlock?",
     answer:
-      "Pro unlocks high-resolution PNG exports, logo-enabled exports, SVG with logo, and premium presets in this browser.",
+      "QuickQR Pro is planned to include high-resolution PNG exports, logo-enabled exports, SVG with logo, and premium presets.",
   },
   {
     question: "Can I use the QR codes commercially?",

@@ -2,7 +2,7 @@
 
 QR codes made fast, clean, and customizable.
 
-QuickQR is a JavaScript-first Next.js app for creating static QR codes in the browser. It supports live QR generation, design controls, logo preview, PNG/SVG exports, and a Stripe-powered one-time Pro checkout for premium exports.
+QuickQR is a JavaScript-first Next.js app for creating static QR codes in the browser. It supports live QR generation, design controls, logo preview, PNG/SVG exports, and a portfolio-ready Pro roadmap for premium exports.
 
 ## Implemented Features
 
@@ -17,8 +17,7 @@ QuickQR is a JavaScript-first Next.js app for creating static QR codes in the br
 - Copy QR image where the browser supports image clipboard writes
 - Example, clear, and reset actions
 - Responsive landing page, features, use cases, pricing, FAQ, privacy, and terms pages
-- Stripe Checkout route for one-time Pro purchases
-- Browser-local signed entitlement token after verified payment
+- Pro pricing and premium export states marked as coming soon
 
 ## Free vs Pro
 
@@ -38,9 +37,9 @@ QuickQR Pro:
 - Premium presets
 - High-resolution export
 - Full SVG export with logo
-- One-time purchase
+- Coming soon
 
-Premium access is stored on this browser. Clearing browser data or switching devices may require a new purchase until account-based restoration is introduced.
+QuickQR Pro is presented as a planned product direction for this portfolio project and is not currently available for purchase.
 
 ## Stack
 
@@ -84,9 +83,13 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 PREMIUM_TOKEN_SECRET=
 ```
 
-`PREMIUM_TOKEN_SECRET` signs browser-local Pro entitlement tokens. Use a long random value.
+`PREMIUM_TOKEN_SECRET` signs browser-local Pro entitlement tokens if the Stripe flow is enabled later. Use a long random value.
 
 ## Stripe Setup
+
+Stripe server routes remain in the codebase as a future integration path, but the portfolio UI currently labels QuickQR Pro as coming soon.
+
+To enable payments later:
 
 1. Create a Stripe one-time Price for QuickQR Pro.
 2. Set `STRIPE_SECRET_KEY` to your Stripe secret key.
@@ -100,7 +103,7 @@ The checkout route does not accept arbitrary price IDs from the browser.
 
 Static QR content is generated client-side. Uploaded logos remain local in the browser and are not sent to QuickQR routes.
 
-Stripe requires server routes to create Checkout Sessions and verify completed sessions. After verification, QuickQR stores a signed entitlement token in browser storage. There is no account-based entitlement restoration yet.
+If Stripe is enabled later, server routes can create Checkout Sessions and verify completed sessions. After verification, QuickQR can store a signed entitlement token in browser storage. There is no account-based entitlement restoration yet.
 
 ## Validation
 
@@ -127,4 +130,4 @@ npm run build
 - Static QR destinations cannot be changed after export.
 - Dynamic QR codes and scan analytics are not implemented.
 - There are no accounts, saved QR history, teams, custom domains, or database-backed restoration.
-- Browser-local Pro access can be lost if browser storage is cleared.
+- Pro exports are shown as coming soon and are not currently available for purchase.

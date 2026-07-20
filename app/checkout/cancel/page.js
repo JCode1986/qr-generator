@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
 export const metadata = {
-  title: "Checkout Canceled",
-  description: "No QuickQR Pro purchase was completed.",
+  title: "QuickQR Pro Coming Soon",
+  description: "QuickQR Pro is not currently available for purchase.",
 };
 
 export default function CheckoutCancelPage() {
@@ -14,14 +14,14 @@ export default function CheckoutCancelPage() {
         <div className="mx-auto max-w-2xl">
           <Card variant="elevated" padding="lg">
             <p className="text-sm font-semibold uppercase text-[var(--accent)]">
-              Checkout canceled
+              Coming soon
             </p>
             <h1 className="mt-4 text-4xl font-semibold text-[var(--foreground)]">
-              No purchase completed.
+              QuickQR Pro is not available yet.
             </h1>
             <p className="mt-4 text-base leading-7 text-[var(--muted)]">
-              Your checkout session was canceled. You can keep using the free
-              static QR generator.
+              Premium exports are shown as a planned product direction for this
+              portfolio project. You can keep using the free static QR generator.
             </p>
             <Button href="/#generator" className="mt-8">
               Return to generator

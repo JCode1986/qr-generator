@@ -59,15 +59,15 @@ function getRenderSettings(settings, logo, sizeOverride) {
 
 function getPremiumRequirement(settings, logo, action) {
   if (action === "svg" && logo) {
-    return "SVG export with a logo is included in QuickQR Pro.";
+    return "SVG export with a logo is planned for QuickQR Pro.";
   }
 
   if (action === "png" && !quickQrPro.freePngSizes.includes(settings.size)) {
-    return "High-resolution PNG export is included in QuickQR Pro.";
+    return "High-resolution PNG export is planned for QuickQR Pro.";
   }
 
   if ((action === "png" || action === "copy") && logo) {
-    return "Logo-enabled exports are included in QuickQR Pro.";
+    return "Logo-enabled exports are planned for QuickQR Pro.";
   }
 
   return "";
@@ -90,7 +90,6 @@ export function QrGenerator() {
   const [message, setMessage] = useState("");
   const [logoError, setLogoError] = useState("");
   const [premium, setPremium] = useState(false);
-  const [checkoutLoading, setCheckoutLoading] = useState(false);
 
   const trimmedContent = content.trim();
   const isEmpty = trimmedContent.length === 0;
@@ -279,7 +278,7 @@ export function QrGenerator() {
 
   const applyPreset = useCallback((preset) => {
     if (preset.premium && !premium) {
-      setMessage("Premium preset. Unlock Pro to use this design.");
+      setMessage("Premium preset. QuickQR Pro is coming soon.");
       return;
     }
 
@@ -448,31 +447,6 @@ export function QrGenerator() {
     }
   }, [createPngDataUrl, logo, premium, settings, status]);
 
-  const handleCheckout = useCallback(async () => {
-    setCheckoutLoading(true);
-    setMessage("");
-
-    try {
-      const response = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ product: quickQrPro.id }),
-      });
-      const result = await response.json();
-
-      if (!response.ok || !result.url) {
-        setMessage(result.error || "Checkout is not available yet.");
-        return;
-      }
-
-      window.location.href = result.url;
-    } catch {
-      setMessage("Checkout could not be started.");
-    } finally {
-      setCheckoutLoading(false);
-    }
-  }, []);
-
   const pngRequirement = !premium ? getPremiumRequirement(settings, logo, "png") : "";
   const svgRequirement = !premium ? getPremiumRequirement(settings, logo, "svg") : "";
   const copyRequirement = !premium ? getPremiumRequirement(settings, logo, "copy") : "";
@@ -557,11 +531,9 @@ export function QrGenerator() {
             message={message}
             premium={premium}
             selectedExportRequirement={selectedExportRequirement}
-            checkoutLoading={checkoutLoading}
             onPngDownload={handlePngDownload}
             onSvgDownload={handleSvgDownload}
             onCopyImage={handleCopyImage}
-            onCheckout={handleCheckout}
           />
 
           <p className="rounded-[var(--radius-sm)] border border-[var(--border)] bg-[color-mix(in_srgb,var(--surface)_70%,transparent)] px-4 py-3 text-sm leading-6 text-[var(--muted)] min-[1280px]:col-span-2">

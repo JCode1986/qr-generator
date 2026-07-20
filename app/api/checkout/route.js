@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { quickQrPro } from "@/lib/stripe/products";
 import { getAppUrl, getStripe, getStripePriceId } from "@/lib/stripe/stripe-server";
 
+function getCheckoutBaseUrl(request) {
+  return process.env.NEXT_PUBLIC_APP_URL || new URL(request.url).origin || getAppUrl();
+}
+
 export async function POST(request) {
   let body;
 
@@ -17,7 +21,7 @@ export async function POST(request) {
 
   try {
     const stripe = getStripe();
-    const appUrl = getAppUrl();
+    const appUrl = getCheckoutBaseUrl(request);
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: [
@@ -34,9 +38,15 @@ export async function POST(request) {
     });
 
     return NextResponse.json({ url: session.url });
-  } catch {
+  } catch (error) {
     return NextResponse.json(
-      { error: "Checkout is not configured yet." },
+      {
+        error:
+          error?.message === "Stripe is not configured." ||
+          error?.message === "Stripe price is not configured."
+            ? error.message
+            : "Checkout is not available yet.",
+      },
       { status: 503 },
     );
   }
