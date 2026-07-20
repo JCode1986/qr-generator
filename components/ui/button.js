@@ -2,7 +2,7 @@ import { classNames } from "@/lib/class-names";
 
 const variants = {
   primary:
-    "border-[var(--button-primary-border)] bg-[var(--button-primary-bg)] text-[var(--button-primary-text)] hover:bg-[var(--button-primary-hover-bg)] active:bg-[var(--button-primary-active-bg)]",
+    "border-[var(--button-primary-border)] bg-[var(--button-primary-background)] text-[var(--button-primary-foreground)] shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_14px_30px_rgba(45,212,232,0.18)] hover:bg-[var(--button-primary-hover)] hover:shadow-[0_0_0_1px_rgba(255,255,255,0.1),0_18px_34px_rgba(45,212,232,0.24)] active:bg-[var(--button-primary-active)]",
   secondary:
     "border-[var(--border)] bg-[var(--surface-elevated)] text-[var(--foreground)] hover:bg-[var(--surface-hover)] active:bg-[var(--surface-active)]",
   ghost:
