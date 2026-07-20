@@ -13,11 +13,11 @@
   --accent: #35d5f4;
   --accent-strong: #8ff0ff;
   --accent-contrast: #00101c;
-  --button-primary-bg: #f8fafc;
-  --button-primary-border: #f8fafc;
-  --button-primary-text: #020617;
-  --button-primary-hover-bg: #ffffff;
-  --button-primary-active-bg: #dbeafe;
+  --button-primary-background: #2dd4e8;
+  --button-primary-foreground: #04131f;
+  --button-primary-border: #45dff0;
+  --button-primary-hover: #67e8f9;
+  --button-primary-active: #22bfd3;
   --accent-secondary: #a78bfa;
   --qr-surface: #f8fafc;
   --qr-module: #07111f;
