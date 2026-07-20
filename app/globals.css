@@ -13,6 +13,11 @@
   --accent: #35d5f4;
   --accent-strong: #8ff0ff;
   --accent-contrast: #00101c;
+  --button-primary-bg: #f8fafc;
+  --button-primary-border: #f8fafc;
+  --button-primary-text: #020617;
+  --button-primary-hover-bg: #ffffff;
+  --button-primary-active-bg: #dbeafe;
   --accent-secondary: #a78bfa;
   --qr-surface: #f8fafc;
   --qr-module: #07111f;
